@@ -1,4 +1,5 @@
 import os, sys, pytest
+import numpy as np
 sys.path.append(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))
 ))
@@ -51,11 +52,11 @@ def test_no_arguments():
 
 def test_singen_to_numpy():
     array = singen_to_numpy(
-        length=10,
+        length=1,
         frequency=0,
-        sampling_rate=30,
+        sampling_rate=10,
     )
-    assert array.conj().T == pytest.approx(
+    assert array == pytest.approx(
         [0,0,0,0,0,0,0,0,0,0]
     )
 
@@ -66,12 +67,4 @@ def test_singen_to_numpy_loka5():
         sampling_rate=30,
         loka=5
     )
-    assert array.conj().T[0] == pytest.approx(
-        [
-            9.51056516e-01,
-            5.87785252e-01,
-            -5.87785252e-01,
-            -9.51056516e-01,
-            -2.44929360e-16
-        ]
-    )
+    assert np.shape(array) == (300, 5)
