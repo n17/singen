@@ -9,7 +9,7 @@ def singen(
         amplitude: float = 1,
         phase_offset: float = 0,  # radians
 ):
-    assert 0 < alternative
+    assert 0 <= alternative
     total_phase_offset = np.pi * (alternative / loka * 2 + phase_offset)
     return amplitude * np.sin(
         2 * np.pi * frequency * time / sampling_rate + total_phase_offset
@@ -28,13 +28,13 @@ def singen_to_numpy(
             [
                 singen(
                     time = t,
-                    alternative = a + 1, # Zero vs one-based indexing
+                    alternative = a,
                     loka = loka,
                     frequency = frequency,
                     sampling_rate = sampling_rate,
                     amplitude = amplitude,
                     phase_offset = phase_offset,
-                ) for t in range(length)
-            ] for a in range(loka)
+                ) for a in range(loka)
+            ] for t in range(length * sampling_rate)
         ]
     )
