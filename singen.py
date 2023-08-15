@@ -15,39 +15,34 @@ def singen(
         2 * np.pi * frequency * time / sampling_rate + total_phase_offset
     )
 
-def singen_to_numpy(
-        length: int,
+def get_2d_singen(
+        func,
         frequency: float,  # Hz
         sampling_rate: int,  # Hz
         loka: int = 1,
         amplitude: float = 1,
         phase_offset: float = 0,  # radians
 ):
-    return np.array(
-        [
-            [
-                singen(
-                    time = t,
-                    alternative = a,
-                    loka = loka,
-                    frequency = frequency,
-                    sampling_rate = sampling_rate,
-                    amplitude = amplitude,
-                    phase_offset = phase_offset,
-                ) for a in range(loka)
-            ] for t in range(length * sampling_rate)
-        ]
-    )
+    def two_d_singen(a, t):
+        return func(
+            time = t,
+            alternative = a,
+            loka = loka,
+            frequency = frequency,
+            sampling_rate = sampling_rate,
+            amplitude = amplitude,
+            phase_offset = phase_offset,
+        )
+    return two_d_singen
 
-def singen_to_numpy2(
+def two_d_function_to_numpy(
         function,
         length: int,
         channels: int,
 ):
+    # channels -= 1
     array = np.empty([length, channels])
     for n in range(channels):
         for m in range(length):
-            array[n][m] = function(
-                
-            )
-
+            array[n][m] = function(n, m)
+    return array
