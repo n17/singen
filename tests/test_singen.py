@@ -4,7 +4,9 @@ sys.path.append(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))
 ))
 from singen import singen, singen_to_numpy
-from math import pi
+if os.environ.get("SINGEN_TEST_IMAGES"):
+    import matplotlib.pyplot as plt
+
 
 def test_loka_3_single_values():
     assert singen(
@@ -68,3 +70,20 @@ def test_singen_to_numpy_loka5():
         loka=5
     )
     assert np.shape(array) == (300, 5)
+
+def test_plot_three_sines():
+    if os.environ.get("SINGEN_TEST_IMAGES"):
+        array = singen_to_numpy(
+            length=10,
+            frequency=0.5,
+            sampling_rate=30,
+            loka=3
+        )
+        plt.figure()
+        for n in range(array.shape[1]):
+            plt.plot(
+                array[:, n],
+                color=np.random.rand(1,3),
+                linewidth=3
+            )
+        plt.savefig("singen_three_test_sines.png")
