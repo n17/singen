@@ -87,3 +87,31 @@ def test_plot_three_sines():
                 linewidth=3
             )
         plt.savefig("singen_three_test_sines.png")
+
+def test_hann_window():
+    """
+    Hann windows traditionally have a minimum value of 0 and a maximum
+    value of 1, but this one goes from -1 to 1.
+    """
+    array = singen_to_numpy(
+        length=1,
+        frequency=1,
+        sampling_rate=20,
+        loka=1,
+        phase_offset=-0.5,
+    )
+    expected_result = [
+        -1.0, -0.951056516, -0.809016994, -0.587785252, -0.309016994, 0.0,
+        0.309016994, 0.587785252, 0.809016994, 0.951056516, 1.0, 0.951056516,
+        0.809016994, 0.587785252, 0.309016994, 1.2246468e-16, -0.309016994,
+        -0.587785252, -0.809016994, -0.951056516
+    ]
+    assert array == pytest.approx(expected_result)
+    if os.environ.get("SINGEN_TEST_IMAGES"):
+        plt.figure()
+        plt.plot(
+            array,
+            color="blue",
+            linewidth=3
+        )
+        plt.savefig("singen_hann_window.png")
