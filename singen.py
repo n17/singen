@@ -42,7 +42,7 @@ def two_d_function_to_numpy(
 ):
     # channels -= 1
     array = np.empty([length, channels])
-    for n in range(channels):
-        for m in range(length):
-            array[n][m] = function(n, m)
+    for t in range(length):
+        for n in range(channels):
+            array[t][n] = function(t, n)
     return array
