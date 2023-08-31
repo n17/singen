@@ -5,6 +5,8 @@ sys.path.append(os.path.dirname(
 ))
 import singen as sg
 from math import pi
+if os.environ.get("SINGEN_TEST_IMAGES"):
+    import matplotlib.pyplot as plt
 
 def test_loka_3_single_values():
     assert sg.singen(
@@ -35,6 +37,34 @@ def test_getting_zeros():
         [0,0,0,0,0,0,0,0,0,0]
     )
 
+def test_getting_hann():
+    test_list = [
+        sg.singen(
+            time = t,
+            frequency = 1,
+            phase_offset = -0.5,
+            sampling_rate = 50,
+        ) for t in range(51)
+    ]
+    if os.environ.get("SINGEN_TEST_IMAGES"):
+        plt.figure()
+        plt.plot(test_list)
+        plt.savefig("singen_hann_window.png")
+
+def test_getting_hann_plus_one():
+    test_list = [
+        (sg.singen(
+            time = t,
+            frequency = 1,
+            phase_offset = -0.5,
+            sampling_rate = 50,
+        ) + 1 ) / 2 for t in range(51)
+    ]
+    if os.environ.get("SINGEN_TEST_IMAGES"):
+        plt.figure()
+        plt.plot(test_list)
+        plt.savefig("singen_hann_window_plus_one.png")
+
 def test_getting_ones():
     test_list = [
         sg.singen(
@@ -47,6 +77,20 @@ def test_getting_ones():
     assert test_list == pytest.approx(
         [1,1,1,1,1,1,1,1,1,1]
     )
+
+def test_getting_hann_plus_one():
+    test_list = [
+        (sg.singen(
+            time = t,
+            frequency = 1,
+            phase_offset = -0.5,
+            sampling_rate = 50,
+        ) + 1 ) / 2 for t in range(51)
+    ]
+    if os.environ.get("SINGEN_TEST_IMAGES"):
+        plt.figure()
+        plt.plot(test_list)
+        plt.savefig("singen_hann_window_plus_one.png")
 
 def test_no_arguments():
     assert sg.singen() == pytest.approx(0)
