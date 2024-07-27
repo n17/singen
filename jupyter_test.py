@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io.wavfile import write
 
+SAMPLING_RATE = 100
+
 def singen(
         time: int = 0,
         frequency: float = 110,  # Hz
@@ -74,9 +76,12 @@ def export_to_wav(list_of_lists, filename, sample_rate=44100):
     # Write the data to a .wav file
     write(filename, sample_rate, data)
 
+
+length = SAMPLING_RATE * 1 + 1
+loka = 5
 sine_list = [
-                [singen(time=t, loka=2, sampling_rate=500, frequency=4, alternative=1) /2 + 0.5 for t in range(501)],
-                [singen(time=t, loka=2, sampling_rate=500, frequency=2, alternative=1) /2 + 0.5 for t in range(501)],
+                [singen(time=t, loka=loka, sampling_rate=SAMPLING_RATE, frequency=1, alternative=alternative) /2 + 0.5 for t in range(length)]
+                 for alternative in range(loka)
 ]
 plot_lists(sine_list)
 export_to_wav(sine_list, "wavtest1.wav")
